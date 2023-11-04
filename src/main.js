@@ -6,11 +6,14 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
+import BreadcrumbsHead from './components/Breadcrumbs.vue'
 
 const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
+app.component('breadcrumbs-head', BreadcrumbsHead);
+
 
 // Vuetify
 import Vuetify from './plugins/vuetify'

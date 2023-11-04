@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <main>
+        <main class="login">
       <v-card  width="300" class="mx-auto mt-5">
         <v-card-title>
           <h1>Login</h1>
@@ -41,3 +41,10 @@ export default {
   }
 }
 </script>
+
+<style scope>
+.login{
+  padding-top: 48px;
+}
+
+</style>

@@ -59,16 +59,7 @@ import { RouterLink, RouterView } from 'vue-router'
         </v-list>
       </v-menu>
     </v-app-bar>
-
-    <div class="breadcrumbs">
-      <v-container class="c-breadcrumbs">
-        <v-breadcrumbs :items="['Foo', 'Bar', 'Fizz']"></v-breadcrumbs>
-      </v-container>
-    </div>
-
-    <v-container>
       <RouterView />
-    </v-container>
   </v-app>
 </template>
 
@@ -89,7 +80,7 @@ export default {
       },
 
       {
-        icon: 'mdi-forum',
+        icon: 'mdi-post',
         title: 'blog',
         link: '/blog'
       },
@@ -99,7 +90,7 @@ export default {
         link: '/about'
       },
       {
-        icon: 'mdi-forum',
+        icon: 'mdi-logout',
         title: 'Войти',
         link: '/login'
       }
@@ -125,14 +116,5 @@ export default {
   font-weight: 500;
   text-transform: uppercase;
 }
-.c-breadcrumbs {
-  padding: 10px 0 10px 0;
-}
-.v-breadcrumbs {
-  padding: 0;
-}
-.breadcrumbs {
-  padding-top: 48px;
-  background-color: #f9f9f9;
-}
+
 </style>

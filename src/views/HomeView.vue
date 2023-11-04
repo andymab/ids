@@ -1,9 +1,28 @@
+
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+  import TheWelcome from '../components/TheWelcome.vue'
 </script>
 
 <template>
+  <breadcrumbs-head :items="items" />
   <main>
-    <TheWelcome />
+    <v-container>
+      <TheWelcome />
+    </v-container>
   </main>
 </template>
+
+<script >
+
+export default {
+  data: () => ({
+    items: [
+      {
+        icon: 'mdi-view-dashboard',
+        title: 'Home',
+        to: ''
+      }
+    ]
+  })
+}
+</script>
