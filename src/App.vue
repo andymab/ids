@@ -45,13 +45,16 @@ import { RouterLink, RouterView } from 'vue-router'
             <span>Дополнительные действия</span>
           </v-tooltip>
         </template>
-        <v-list>
-          <v-list-item v-for="(item, index) in items" :key="index">
-            <v-list-item-title>
-              <RouterLink :to="item.link">
-                {{ item.title }}
-              </RouterLink>
-            </v-list-item-title>
+        <v-list density="compact" nav>
+          <v-list-item v-for="(item, index) in items" :key="index" :value="index">
+            <RouterLink :to="item.link" class="router-menu">
+              <div class="d-flex align-center">
+                <v-icon :icon="item.icon" />
+                <v-list-item-title>
+                  {{ item.title }}
+                </v-list-item-title>
+              </div>
+            </RouterLink>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -112,16 +115,15 @@ export default {
 .router-menu {
   display: block;
   text-decoration: none;
-  
+
   padding: 0;
 }
 .router-menu .v-list-item-title {
   margin-left: 8px;
-  color:dimgrey;
+  color: dimgrey;
   font-family: Roboto;
   font-weight: 500;
   text-transform: uppercase;
-
 }
 .c-breadcrumbs {
   padding: 10px 0 10px 0;
