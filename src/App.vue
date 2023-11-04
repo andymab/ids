@@ -6,7 +6,6 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <template>
   <v-app>
-
     <!-- <drawer-main-menu :drawer="drawer"/> -->
 
     <v-navigation-drawer v-model="drawer" temporary>
@@ -18,18 +17,22 @@ import { RouterLink, RouterView } from 'vue-router'
       <v-divider></v-divider>
 
       <v-list density="compact" nav>
-        <v-list-item prepend-icon="mdi-view-dashboard" title="Home" value="home"></v-list-item>
-        <v-list-item prepend-icon="mdi-forum" title="About" value="about"></v-list-item>
+        <v-list-item v-for="(item, index) in items" :key="index" :value="index">
+          <RouterLink :to="item.link" class="router-menu">
+            <div class="d-flex align-center">
+              <v-icon :icon="item.icon" />
+              <v-list-item-title>
+                {{ item.title }}
+              </v-list-item-title>
+            </div>
+          </RouterLink>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
-
-    
     <v-app-bar color="primary" density="compact">
       <template v-slot:prepend>
-        <v-app-bar-nav-icon
-           @click.stop="drawer = !drawer"
-        ></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </template>
       <v-app-bar-title>Иванкин Денис</v-app-bar-title>
 
@@ -70,26 +73,30 @@ import { RouterLink, RouterView } from 'vue-router'
 import { mergeProps } from 'vue'
 
 export default {
-  components:{
+  components: {
     // DrawerMainMenu
   },
   data: () => ({
     drawer: null,
     items: [
       {
+        icon: 'mdi-view-dashboard',
         title: 'Home',
         link: '/'
       },
 
       {
-        title: 'Блог',
+        icon: 'mdi-forum',
+        title: 'blog',
         link: '/blog'
       },
       {
+        icon: 'mdi-forum',
         title: 'О компании',
         link: '/about'
       },
       {
+        icon: 'mdi-forum',
         title: 'Войти',
         link: '/login'
       }
@@ -102,6 +109,20 @@ export default {
 </script>
 
 <style scoped>
+.router-menu {
+  display: block;
+  text-decoration: none;
+  
+  padding: 0;
+}
+.router-menu .v-list-item-title {
+  margin-left: 8px;
+  color:dimgrey;
+  font-family: Roboto;
+  font-weight: 500;
+  text-transform: uppercase;
+
+}
 .c-breadcrumbs {
   padding: 10px 0 10px 0;
 }

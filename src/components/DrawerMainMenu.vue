@@ -23,7 +23,7 @@ export default {
   props: {
     drawer: {
       type: Boolean,
-      default: () => 0
+      default: () => null
     }
   },
   data: () => ({
