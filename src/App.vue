@@ -34,7 +34,7 @@ import { RouterLink, RouterView } from 'vue-router'
       <template v-slot:prepend>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </template>
-      <v-app-bar-title>Иванкин Денис</v-app-bar-title>
+      <v-app-bar-title>Иванкин Денис Сергеевич</v-app-bar-title>
 
       <v-menu>
         <template v-slot:activator="{ props: menu }">
