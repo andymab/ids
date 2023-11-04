@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <main>
-      <v-card  width="400" class="mx-auto mt-5">
+      <v-card  width="300" class="mx-auto mt-5">
         <v-card-title>
           <h1>Login</h1>
         </v-card-title>

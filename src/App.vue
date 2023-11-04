@@ -1,92 +1,115 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from './components/HelloWorld.vue'
+// import DrawerMainMenu from './components/DrawerMainMenu.vue'
 </script>
 
 <template>
   <v-app>
-    <v-app-bar :elevation="2">
-      <v-app-bar-nav-icon>  
-         <RouterLink to="/">
-          <v-icon icon="mdi-home" />
-        </RouterLink> 
-      </v-app-bar-nav-icon>
-      <v-app-bar-title> Aplication</v-app-bar-title>
-      <template v-slot:append>
 
-        <RouterLink to="/about">
-          <v-btn> О компании </v-btn>
-        </RouterLink>
-        <RouterLink to="/login">
-          <v-btn> Войти </v-btn>
-        </RouterLink>
+    <!-- <drawer-main-menu :drawer="drawer"/> -->
 
+    <v-navigation-drawer v-model="drawer" temporary>
+      <v-list-item
+        prepend-avatar="https://randomuser.me/api/portraits/men/78.jpg"
+        title="John Leider"
+      ></v-list-item>
+
+      <v-divider></v-divider>
+
+      <v-list density="compact" nav>
+        <v-list-item prepend-icon="mdi-view-dashboard" title="Home" value="home"></v-list-item>
+        <v-list-item prepend-icon="mdi-forum" title="About" value="about"></v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+
+    
+    <v-app-bar color="primary" density="compact">
+      <template v-slot:prepend>
+        <v-app-bar-nav-icon
+           @click.stop="drawer = !drawer"
+        ></v-app-bar-nav-icon>
       </template>
+      <v-app-bar-title>Иванкин Денис</v-app-bar-title>
+
+      <v-menu>
+        <template v-slot:activator="{ props: menu }">
+          <v-tooltip location="top">
+            <template v-slot:activator="{ props: tooltip }">
+              <v-btn icon="mdi-dots-vertical" v-bind="mergeProps(menu, tooltip)"></v-btn>
+            </template>
+            <span>Дополнительные действия</span>
+          </v-tooltip>
+        </template>
+        <v-list>
+          <v-list-item v-for="(item, index) in items" :key="index">
+            <v-list-item-title>
+              <RouterLink :to="item.link">
+                {{ item.title }}
+              </RouterLink>
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
-    <RouterView />
-</v-app>
+
+    <div class="breadcrumbs">
+      <v-container class="c-breadcrumbs">
+        <v-breadcrumbs :items="['Foo', 'Bar', 'Fizz']"></v-breadcrumbs>
+      </v-container>
+    </div>
+
+    <v-container>
+      <RouterView />
+    </v-container>
+  </v-app>
 </template>
 
+<script>
+import { mergeProps } from 'vue'
+
+export default {
+  components:{
+    // DrawerMainMenu
+  },
+  data: () => ({
+    drawer: null,
+    items: [
+      {
+        title: 'Home',
+        link: '/'
+      },
+
+      {
+        title: 'Блог',
+        link: '/blog'
+      },
+      {
+        title: 'О компании',
+        link: '/about'
+      },
+      {
+        title: 'Войти',
+        link: '/login'
+      }
+    ]
+  }),
+  methods: {
+    mergeProps
+  }
+}
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+.c-breadcrumbs {
+  padding: 10px 0 10px 0;
 }
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.v-breadcrumbs {
+  padding: 0;
 }
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.breadcrumbs {
+  padding-top: 48px;
+  background-color: #f9f9f9;
 }
 </style>
