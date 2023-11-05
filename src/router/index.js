@@ -23,10 +23,21 @@ const router = createRouter({
       component: () => import('../views/BlogView.vue')
     },
     {
+      path: '/images',
+      name: 'images',
+      component: () => import('../views/ImagesView.vue')
+    },
+    
+    {
       path: '/login',
       name: 'login',
       component: () => import('../views/LoginView.vue')
-    }
+    },
+     {
+      path: '/images/1',
+      name: 'images1',
+      component: () => import('../views/Images1View.vue')
+    }   
   ]
 })
 

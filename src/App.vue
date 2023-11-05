@@ -90,6 +90,12 @@ export default {
         link: '/about'
       },
       {
+        icon: 'mdi-image',
+        title: 'Фото альбомы',
+        link: '/images'
+      },
+
+      {
         icon: 'mdi-logout',
         title: 'Войти',
         link: '/login'
