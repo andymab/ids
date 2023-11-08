@@ -2,29 +2,30 @@
     <breadcrumbs-head :items="breadcrumbs" />
     <main>
       <v-container>
-        <v-virtual-scroll :items="items" height="400">
+        <v-virtual-scroll :items="items" height="dynamic">
           <template v-slot:default="{ item, index }">
-            <div v-for="n in item" class="image-block">
-              <div class="image-text-block">
-                  <h6>Фотография из альбома</h6>
-              </div>
-              <div class="image-item">
-
-                <v-img
-                  :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
-                  :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
-                  cover
-                  class="bg-grey-lighten-2"
-                >
-                  <template v-slot:placeholder>
-                    <v-row class="fill-height ma-0" align="center" justify="center">
-                      <v-progress-circular indeterminate color="grey-lighten-5"></v-progress-circular>
-                    </v-row>
-                  </template>
-                </v-img>
-
+            <div class="row">
+              <div v-for="n in item" class="image-block">
+                <div class="image-content">
+                  <div class="image-text-block" v-show="showtooltype">
+                    <h6>{{ n.title }}</h6>
+                  </div>
+                  <div class="image-item">
+  
+                    <RouterLink to="/images/1">
+                      <v-img :src="n.src" :lazy-src="n.src" contain class="bg-grey-lighten-2">
+                        <template v-slot:placeholder>
+                          <v-row class="fill-height ma-0" align="center" justify="center">
+                            <v-progress-circular indeterminate color="grey-lighten-5"></v-progress-circular>
+                          </v-row>
+                        </template>
+                      </v-img>
+                    </RouterLink>
+                  </div>
+                </div>
               </div>
             </div>
+
           </template>
         </v-virtual-scroll>
       </v-container>
@@ -32,8 +33,11 @@
   </template>
   
   <script>
+  import json from '/src/assets/photo/albom.json'
+
   export default {
     data: () => ({
+      items: json,
       breadcrumbs: [
         {
           icon: 'mdi-view-dashboard',
@@ -52,20 +56,7 @@
         },
       ]
     }),
-    computed: {
-      items() {
-        return [
-          [16, 17, 18],
-          [19, 20, 21],
-          [22, 23, 24],
-          [25, 26, 27],
-          [28, 29, 30]
-        ]
-      }
-  
-      //     return Array.from({ length: 1000 }, (k, v) => v + 1)
-      //   },
-    }
+
   }
   </script>
   
