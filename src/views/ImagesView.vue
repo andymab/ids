@@ -2,12 +2,29 @@
   <breadcrumbs-head :items="breadcrumbs" />
   <main>
     <v-container>
+      <v-toolbar title="Фотоальбомы" density="compact">
+
+        <v-text-field hide-details prepend-icon="mdi-magnify" single-line placeholder="...Найти"></v-text-field>
+
+        <v-tooltip location="top">
+          <template v-slot:activator="{ props: tooltip }">
+            <v-btn icon="mdi-newspaper-plus" v-bind="mergeProps(tooltip)"></v-btn>
+          </template>
+          <span>Новый альбом</span>
+        </v-tooltip>
+
+    
+          <v-switch v-model="showtooltype" hide-details inset compact label="Показать описания"></v-switch>
+
+
+
+      </v-toolbar>
       <v-virtual-scroll :items="items" height="dynamic">
         <template v-slot:default="{ item }">
           <div class="row">
             <div v-for="n in item" class="image-block">
               <div class="image-content">
-                <div class="image-text-block">
+                <div class="image-text-block" v-show="showtooltype">
                   <h6>{{ n.title }}</h6>
                 </div>
                 <div class="image-item">
@@ -32,8 +49,12 @@
 </template>
 
 <script>
+
+import { mergeProps } from 'vue'
+
 export default {
   data: () => ({
+    showtooltype:false,
     breadcrumbs: [
       {
         icon: 'mdi-view-dashboard',
@@ -47,6 +68,9 @@ export default {
       }
     ]
   }),
+  methods: {
+    mergeProps
+  },
   computed: {
     items() {
       return [
@@ -60,8 +84,8 @@ export default {
             src: "/public/photo/20171026Надежда3200/гора надежда-20171026.jpg"
           },
           {
-            title: "гора софия-с-горы-надежда-20171026",
-            src: "/public/photo/20171026Надежда3200/гора софия-с-горы-надежда-20171026.jpg"
+            title: "гора софия-с-горы-надежда-20171026_2",
+            src: "/public/photo/20171026Надежда3200/16_9 гора софия-с-горы-надежда-20171026_2.jpg"
           },
           {
             title: "деоево-ущелье-фкайры-20171026",
@@ -70,12 +94,8 @@ export default {
         ],
         [
           {
-            title: "гора софия-с-горы-надежда-20171026_1",
-            src: "/public/photo/20171026Надежда3200/гора софия-с-горы-надежда-20171026_1.jpg"
-          },
-          {
             title: "гора софия-с-горы-надежда-20171026_2",
-            src: "/public/photo/20171026Надежда3200/гора софия-с-горы-надежда-20171026_2.jpg"
+            src: "/public/photo/20171026Надежда3200/16_9 гора софия-с-горы-надежда-20171026_2.jpg"
           },
           {
             title: "деоево-ущелье-фкайры-20171026",
@@ -157,7 +177,7 @@ export default {
           },
           {
             title: "гора софия-с-горы-надежда-20171026",
-            src: "/public/photo/20171026Надежда3200/гора софия-с-горы-надежда-20171026.jpg"
+            src: "/public/photo/20171026Надежда3200/16_9 гора софия-с-горы-надежда-20171026_2.jpg"
           },
           {
             title: "деоево-ущелье-фкайры-20171026",
@@ -167,11 +187,7 @@ export default {
         [
           {
             title: "гора софия-с-горы-надежда-20171026_1",
-            src: "/public/photo/20171026Надежда3200/гора софия-с-горы-надежда-20171026_1.jpg"
-          },
-          {
-            title: "гора софия-с-горы-надежда-20171026_2",
-            src: "/public/photo/20171026Надежда3200/гора софия-с-горы-надежда-20171026_2.jpg"
+            src: "/public/photo/20171026Надежда3200/16_9 гора софия-с-горы-надежда-20171026_2.jpg"
           },
           {
             title: "деоево-ущелье-фкайры-20171026",
@@ -253,7 +269,7 @@ export default {
           },
           {
             title: "гора софия-с-горы-надежда-20171026",
-            src: "/public/photo/20171026Надежда3200/гора софия-с-горы-надежда-20171026.jpg"
+            src: "/public/photo/20171026Надежда3200/16_9 гора софия-с-горы-надежда-20171026_2.jpg"
           },
           {
             title: "деоево-ущелье-фкайры-20171026",
@@ -262,12 +278,8 @@ export default {
         ],
         [
           {
-            title: "гора софия-с-горы-надежда-20171026_1",
-            src: "/public/photo/20171026Надежда3200/гора софия-с-горы-надежда-20171026_1.jpg"
-          },
-          {
             title: "гора софия-с-горы-надежда-20171026_2",
-            src: "/public/photo/20171026Надежда3200/гора софия-с-горы-надежда-20171026_2.jpg"
+            src: "/public/photo/20171026Надежда3200/16_9 гора софия-с-горы-надежда-20171026_2.jpg"
           },
           {
             title: "деоево-ущелье-фкайры-20171026",
@@ -349,7 +361,7 @@ export default {
           },
           {
             title: "гора софия-с-горы-надежда-20171026",
-            src: "/public/photo/20171026Надежда3200/гора софия-с-горы-надежда-20171026.jpg"
+            src: "/public/photo/20171026Надежда3200/16_9 гора софия-с-горы-надежда-20171026_2.jpg"
           },
           {
             title: "деоево-ущелье-фкайры-20171026",
@@ -358,12 +370,8 @@ export default {
         ],
         [
           {
-            title: "гора софия-с-горы-надежда-20171026_1",
-            src: "/public/photo/20171026Надежда3200/гора софия-с-горы-надежда-20171026_1.jpg"
-          },
-          {
             title: "гора софия-с-горы-надежда-20171026_2",
-            src: "/public/photo/20171026Надежда3200/гора софия-с-горы-надежда-20171026_2.jpg"
+            src: "/public/photo/20171026Надежда3200/16_9 гора софия-с-горы-надежда-20171026_2.jpg"
           },
           {
             title: "деоево-ущелье-фкайры-20171026",
@@ -463,10 +471,11 @@ export default {
   background-color: black;
   text-align: center;
 }
-.image-content{
+
+.image-content {
   display: block;
   position: relative;
-padding: 4px 0;
+  padding: 4px 0;
 }
 
 .image-item {
@@ -479,16 +488,16 @@ padding: 4px 0;
 /* .image-block {
 
 } */
-.image-block:hover .image-text-block {
+/* .image-block:hover .image-text-block {
   opacity: 0.7;
-}
+} */
 
 .image-text-block {
   width: 100%;
   font-family: Roboto;
   text-align: center;
   color: white;
-  opacity: 0;
+  opacity: 0.7;
   background-color: rgb(19, 18, 18);
   position: absolute;
   bottom: 4px;
