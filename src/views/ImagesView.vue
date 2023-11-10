@@ -46,6 +46,7 @@
                 <v-hover v-slot="{ isHovering, props }">
                     <div class="image-item" :key="index + '-image-item-' + n"
                     :class="{ 'active': isHovering || showtooltype}" v-bind="props"
+                    :elevation="isHovering ? 16 : 2"
                     >
                       <!-- <RouterLink to="/images/1"> -->
                       <v-img
