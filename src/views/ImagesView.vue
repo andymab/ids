@@ -1,23 +1,39 @@
 <template>
-  <full-image v-if="FullImage" :image="activeSrc" :title="activeTitle" @CloseFullImage="CloseFullImage"/>
+  <full-image
+    v-if="FullImage"
+    :image="activeSrc"
+    :title="activeTitle"
+    @CloseFullImage="CloseFullImage"
+  />
   <breadcrumbs-head :items="breadcrumbs" />
   <main>
-    
     <v-container>
       <v-toolbar title="Фотоальбомы" density="compact">
-
-        <v-text-field hide-details prepend-icon="mdi-magnify" single-line placeholder="...Найти"></v-text-field>
+        <v-text-field
+          hide-details
+          prepend-icon="mdi-magnify"
+          single-line
+          placeholder="...Найти"
+        ></v-text-field>
 
         <v-tooltip location="top">
           <template v-slot:activator="{ props: tooltip }">
-            <v-btn icon="mdi-newspaper-plus" v-bind="mergeProps(tooltip)"
-              @click="showFilePreview = !showFilePreview"></v-btn>
+            <v-btn
+              icon="mdi-newspaper-plus"
+              v-bind="mergeProps(tooltip)"
+              @click="showFilePreview = !showFilePreview"
+            ></v-btn>
           </template>
           <span>Новый альбом</span>
         </v-tooltip>
 
-
-        <v-switch v-model="showtooltype" hide-details inset compact label="Показать описания"></v-switch>
+        <v-switch
+          v-model="showtooltype"
+          hide-details
+          inset
+          compact
+          label="Показать описания"
+        ></v-switch>
       </v-toolbar>
       <div>
         <file-preview-dialog :dialog="showFilePreview" @onReset="showFilePreview = false" />
@@ -27,35 +43,50 @@
           <div class="row">
             <div v-for="n in item" class="image-block" :key="index + '-' + n">
               <div class="image-content">
+                <v-hover v-slot="{ isHovering, props }">
+                    <div class="image-item" :key="index + '-image-item-' + n"
+                    :class="{ 'active': isHovering || showtooltype}" v-bind="props"
+                    >
+                      <!-- <RouterLink to="/images/1"> -->
+                      <v-img
+                        :src="n.src_tmb"
+                        :lazy-src="n.src_big"
+                        cover
+                        class="bg-grey-lighten-2 img-vue"
+                        height="220"
+                      >
+                        <template v-slot:placeholder>
+                          <v-row class="fill-height ma-0" center justify="center">
+                            <v-progress-circular
+                              indeterminate
+                              color="grey-lighten-5"
+                            ></v-progress-circular>
+                          </v-row>
+                        </template>
 
-                <div class="image-item">
-                  <!-- <RouterLink to="/images/1"> -->
-                  <v-img :src="n.src" :lazy-src="n.src" contain class="bg-grey-lighten-2 img-vue">
-                    <template v-slot:placeholder>
-                      <v-row class="fill-height ma-0" align="center" justify="center">
-                        <v-progress-circular indeterminate color="grey-lighten-5"></v-progress-circular>
-                      </v-row>
-                    </template>
-                    <transition name="fade">
-                      <v-toolbar density="compact">
+                        <v-toolbar density="compact">
+                          <div class="d-flex px-2 image-toolbar">
+                            <v-icon
+                              icon="mdi-loupe"
+                              @click="showFullImage"
+                              :data-src="n.src_big"
+                              :data-title="n.title"
+                              :data-descr="n.descr"
+                              class="mr-2"
+                            ></v-icon>
+                            <RouterLink to="/images/1">
+                              <v-icon icon="mdi-exit-to-app"></v-icon>
+                            </RouterLink>
+                          </div>
+                        </v-toolbar>
 
-                        <div class="d-flex justify-space-around">
-                          <v-icon icon="mdi-loupe" @click="showFullImage" :data-src="n.src"
-                            :data-title="n.title"></v-icon>
+                        <div class="image-text-block" >
+                          <h6>{{ n.title }} {{ n.descr }}</h6>
                         </div>
-
-
-                      </v-toolbar>
-                    </transition>
-
-                    <transition name="fade">
-                      <div class="image-text-block" v-show="showtooltype">
-                        <h6>{{ n.title }}</h6>
-                      </div>
-                    </transition>
-                  </v-img>
-                  <!-- </RouterLink> -->
-                </div>
+                      </v-img>
+                    </div>
+              
+                </v-hover>
               </div>
             </div>
           </div>
@@ -66,7 +97,6 @@
 </template>
 
 <script>
-
 import { mergeProps } from 'vue'
 
 import FilePreviewDialog from '../components/Photo/FilePreviewDialog.vue'
@@ -76,7 +106,8 @@ import json from '/src/assets/photo/albom.json'
 
 export default {
   components: {
-    FilePreviewDialog, FullImage
+    FilePreviewDialog,
+    FullImage
   },
   data: () => ({
     activeSrc: '',
@@ -101,16 +132,16 @@ export default {
   }),
   methods: {
     mergeProps,
-    CloseFullImage:function(){
-      this.FullImage = false;
-      return false;
+    CloseFullImage: function () {
+      this.FullImage = false
+      return false
     },
     showFullImage: function (e) {
       // console.log(e.target);
-      console.log(e.target.dataset.src);
-      this.activeSrc = e.target.dataset.src;
-      this.activeTitle = e.target.dataset.title;
-      this.FullImage = true;
+      console.log(e.target.dataset.src)
+      this.activeSrc = e.target.dataset.src
+      this.activeTitle = e.target.dataset.title
+      this.FullImage = true
     }
     // addClass: function (e) {
     //  // if (e.target.classList.contains("has-children")) {
@@ -122,12 +153,33 @@ export default {
     //     e.target.classList.remove("active");
     // //  }
     // },
-  },
-
+  }
 }
 </script>
 
 <style>
+.v-theme--light .image-item header {
+  background-color: transparent;
+  color: floralwhite;
+}
+
+.v-theme--light .image-item header a {
+  color: floralwhite;
+}
+
+.image-toolbar {
+  opacity: 0;
+  transition: opacity 0.5s;
+
+  align-items: center;
+  width: 100%;
+  justify-content: end;
+}
+
+.image-item.active .image-toolbar {
+  opacity: 1;
+}
+
 .v-virtual-scroll__item {
   /* display: flex; */
   /* justify-content: center; */
@@ -172,6 +224,7 @@ export default {
 } */
 
 .image-text-block {
+
   width: 100%;
   font-family: Roboto;
   text-align: center;
@@ -182,7 +235,15 @@ export default {
   bottom: 0;
   z-index: 2;
   font-size: 24px;
+  opacity: 0;
+  transition: opacity 0.5s;
 }
+
+.image-item.active .image-text-block {
+  opacity: 0.6;
+}
+
+
 
 .image-item {
   opacity: 1;
@@ -191,7 +252,7 @@ export default {
 }
 
 .image-item:hover {
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 /* Responsive layout - makes a two column-layout instead of four columns */

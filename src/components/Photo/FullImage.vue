@@ -39,6 +39,9 @@ export default {
 </script>
 
 <style scope>
+    html{
+        overflow-y: auto;
+    }
 .img-block-full {
     /* position: relative; */
     /* height: calc(100%); */
