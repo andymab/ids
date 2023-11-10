@@ -1,6 +1,8 @@
 <template>
+  <full-image v-if="FullImage" :image="activeSrc" :title="activeTitle" @CloseFullImage="CloseFullImage"/>
   <breadcrumbs-head :items="breadcrumbs" />
   <main>
+    
     <v-container>
       <v-toolbar title="Фотоальбомы" density="compact">
 
@@ -21,25 +23,38 @@
         <file-preview-dialog :dialog="showFilePreview" @onReset="showFilePreview = false" />
       </div>
       <v-virtual-scroll :items="items" height="dynamic">
-        <template v-slot:default="{ item }">
+        <template v-slot:default="{ item, index }">
           <div class="row">
-            <div v-for="n in item" class="image-block">
+            <div v-for="n in item" class="image-block" :key="index + '-' + n">
               <div class="image-content">
+
                 <div class="image-item">
-                  <RouterLink to="/images/1">
-                    <v-img :src="n.src" :lazy-src="n.src" contain class="bg-grey-lighten-2">
-                      <template v-slot:placeholder>
-                        <v-row class="fill-height ma-0" align="center" justify="center">
-                          <v-progress-circular indeterminate color="grey-lighten-5"></v-progress-circular>
-                        </v-row>
-                      </template>
-                      <transition name="fade">
-                        <div class="image-text-block" v-if="showtooltype">
-                          <h6>{{ n.title }}</h6>
+                  <!-- <RouterLink to="/images/1"> -->
+                  <v-img :src="n.src" :lazy-src="n.src" contain class="bg-grey-lighten-2 img-vue">
+                    <template v-slot:placeholder>
+                      <v-row class="fill-height ma-0" align="center" justify="center">
+                        <v-progress-circular indeterminate color="grey-lighten-5"></v-progress-circular>
+                      </v-row>
+                    </template>
+                    <transition name="fade">
+                      <v-toolbar density="compact">
+
+                        <div class="d-flex justify-space-around">
+                          <v-icon icon="mdi-loupe" @click="showFullImage" :data-src="n.src"
+                            :data-title="n.title"></v-icon>
                         </div>
-                      </transition>
-                    </v-img>
-                  </RouterLink>
+
+
+                      </v-toolbar>
+                    </transition>
+
+                    <transition name="fade">
+                      <div class="image-text-block" v-show="showtooltype">
+                        <h6>{{ n.title }}</h6>
+                      </div>
+                    </transition>
+                  </v-img>
+                  <!-- </RouterLink> -->
                 </div>
               </div>
             </div>
@@ -55,15 +70,19 @@
 import { mergeProps } from 'vue'
 
 import FilePreviewDialog from '../components/Photo/FilePreviewDialog.vue'
-
+import FullImage from '../components/Photo/FullImage.vue'
 
 import json from '/src/assets/photo/albom.json'
 
 export default {
   components: {
-    FilePreviewDialog
+    FilePreviewDialog, FullImage
   },
   data: () => ({
+    activeSrc: '',
+    activeTitle: '',
+    FullImage: false,
+    showtitle: false,
     items: json,
     showFilePreview: false,
     showtooltype: false,
@@ -81,7 +100,28 @@ export default {
     ]
   }),
   methods: {
-    mergeProps
+    mergeProps,
+    CloseFullImage:function(){
+      this.FullImage = false;
+      return false;
+    },
+    showFullImage: function (e) {
+      // console.log(e.target);
+      console.log(e.target.dataset.src);
+      this.activeSrc = e.target.dataset.src;
+      this.activeTitle = e.target.dataset.title;
+      this.FullImage = true;
+    }
+    // addClass: function (e) {
+    //  // if (e.target.classList.contains("has-children")) {
+    //     e.target.classList.add("active");
+    // // }
+    // },
+    // removeClass: function (e) {
+    //   //if (e.target.classList.contains("has-children")) {
+    //     e.target.classList.remove("active");
+    // //  }
+    // },
   },
 
 }
@@ -118,7 +158,10 @@ export default {
   margin-top: 8px;
   vertical-align: middle;
   width: 100%;
+}
 
+.image-block.active .image-text-block {
+  display: block !important;
 }
 
 /* .image-block {
