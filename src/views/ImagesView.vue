@@ -42,11 +42,15 @@
         <template v-slot:default="{ item, index }">
           <div class="row">
             <div v-for="n in item" class="image-block" :key="index + '-' + n">
-              <div class="image-content">
+              <div class="image-content"
+              >
                 <v-hover v-slot="{ isHovering, props }">
+                  <v-card
+                  :elevation="isHovering ? 4 : 2"
+                  v-bind="props"  >
                     <div class="image-item" :key="index + '-image-item-' + n"
                     :class="{ 'active': isHovering || showtooltype}" v-bind="props"
-                    :elevation="isHovering ? 16 : 2"
+                    
                     >
                       <!-- <RouterLink to="/images/1"> -->
                       <v-img
@@ -55,6 +59,7 @@
                         cover
                         class="bg-grey-lighten-2 img-vue"
                         height="220"
+
                       >
                         <template v-slot:placeholder>
                           <v-row class="fill-height ma-0" center justify="center">
@@ -86,7 +91,7 @@
                         </div>
                       </v-img>
                     </div>
-              
+                  </v-card>
                 </v-hover>
               </div>
             </div>
