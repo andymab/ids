@@ -1,108 +1,233 @@
 <template>
-    <breadcrumbs-head :items="breadcrumbs" />
-    <main>
-      <v-container>
-        <v-virtual-scroll :items="items" height="400">
-          <template v-slot:default="{ item, index }">
-            <div v-for="n in item" class="image-block">
-              <div class="image-text-block">
-                  <h6>Фотография из альбома</h6>
-              </div>
-              <div class="image-item">
+  <full-image v-if="FullImage" :image="FullImageSrc" :title="activeTitle" @CloseFullImage="CloseFullImage" />
+  <div v-show="!FullImage">
+  <app-bar />
+  <breadcrumbs-head :items="breadcrumbs" />
+  <main v-show="!FullImage">
+    <v-container>
+      <v-toolbar title="Фотоальбомы" density="compact">
+        <v-text-field hide-details prepend-icon="mdi-magnify" single-line placeholder="...Найти"></v-text-field>
 
-                <v-img
-                  :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
-                  :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
-                  cover
-                  class="bg-grey-lighten-2"
-                >
-                  <template v-slot:placeholder>
-                    <v-row class="fill-height ma-0" align="center" justify="center">
-                      <v-progress-circular indeterminate color="grey-lighten-5"></v-progress-circular>
-                    </v-row>
-                  </template>
-                </v-img>
+        <v-tooltip location="top">
+          <template v-slot:activator="{ props: tooltip }">
+            <v-btn icon="mdi-newspaper-plus" v-bind="mergeProps(tooltip)"
+              @click="showFilePreview = !showFilePreview"></v-btn>
+          </template>
+          <span>Новое фото</span>
+        </v-tooltip>
 
+        <v-switch v-model="showtooltype" hide-details inset compact label="Показать описания"></v-switch>
+      </v-toolbar>
+      <div>
+        <file-preview-dialog :dialog="showFilePreview" :srcpreview="activeSrc" @onReset="showFilePreview = false" />
+      </div>
+      <v-virtual-scroll :items="items" height="dynamic">
+        <template v-slot:default="{ item, index }">
+          <div class="row">
+            <div v-for="n in item" class="image-block" :key="index + '-' + n">
+              <div class="image-content">
+                <v-hover v-slot="{ isHovering, props }">
+                  <v-card :elevation="isHovering ? 4 : 2" v-bind="props">
+                    <div class="image-item" :key="index + '-image-item-' + n"
+                      :class="{ 'active': isHovering || showtooltype }" v-bind="props">
+                      <!-- <RouterLink to="/images/1"> -->
+                      <v-img :src="n.src_tmb" :lazy-src="n.src_big" cover class="bg-grey-lighten-2 img-vue" height="220" >
+                        <template v-slot:placeholder>
+                          <v-row class="fill-height ma-0 " align="center" justify="center">
+                            <v-progress-circular indeterminate color="grey-lighten-5"></v-progress-circular>
+                          </v-row>
+                        </template>
+
+                        <template v-slot:error>
+                          <v-img class="mx-auto" height="220" max-width="500" cover
+                            src="/public/default.jpg"></v-img>
+                        </template>
+
+                        <v-toolbar density="compact">
+                          <div class="d-flex px-2 image-toolbar">
+                            <v-icon icon="mdi-loupe" @click="showFullImage(n.src_big,n.title,n.descr)" class="mr-2"></v-icon>
+                            <v-icon icon="mdi-newspaper-plus" @click="showFilePreviewDialog(n.src_tmb)" class="mr-2"></v-icon>
+</div>
+
+                        </v-toolbar>
+
+                        <div class="image-text-block">
+                          <h6>{{ n.title }} {{ n.descr }}</h6>
+                        </div>
+                      </v-img>
+                    </div>
+                  </v-card>
+                </v-hover>
               </div>
             </div>
-          </template>
-        </v-virtual-scroll>
-      </v-container>
-    </main>
-  </template>
-  
-  <script>
-  export default {
-    data: () => ({
-      breadcrumbs: [
-        {
-          icon: 'mdi-view-dashboard',
-          title: 'Home',
-          to: '/'
-        },
-        {
-          icon: 'mdi-imagesmode',
-          title: 'Фото Альбомы',
-          to: '/images'
-        },
-        {
-          icon: 'mdi-imagesmode',
-          title: 'Семейный фотоальбом',
-          to: ''
-        },
-      ]
-    }),
-    computed: {
-      items() {
-        return [
-          [16, 17, 18],
-          [19, 20, 21],
-          [22, 23, 24],
-          [25, 26, 27],
-          [28, 29, 30]
-        ]
+          </div>
+        </template>
+      </v-virtual-scroll>
+    </v-container>
+  </main>
+  </div>
+</template>
+
+<script>
+import { mergeProps } from 'vue'
+
+import FilePreviewDialog from '../components/Photo/FilePreviewDialog.vue'
+import FullImage from '../components/Photo/FullImage.vue'
+
+import json from '/src/assets/photo/001.json'
+
+export default {
+  components: {
+    FilePreviewDialog,
+    FullImage
+  },
+  data: () => ({
+    activeSrc: '',
+    activeTitle: '',
+    FullImage: false,
+    FullImageSrc: '',
+    showtitle: false,
+    items: json,
+    showFilePreview: false,
+    showtooltype: false,
+    breadcrumbs: [
+      {
+        icon: 'mdi-view-dashboard',
+        title: 'Home',
+        to: '/'
+      },
+      {
+        icon: 'mdi-forum',
+        title: 'Фото Альбомы',
+        to: '/images'
+      },
+      {
+        icon: 'mdi-forum',
+        title: 'г Надежда 2023',
+        to: ''
       }
-  
-      //     return Array.from({ length: 1000 }, (k, v) => v + 1)
-      //   },
+
+    ]
+  }),
+  methods: {
+    mergeProps,
+    showFilePreviewDialog:function(src){
+      this.activeSrc = src;
+      this.showFilePreview = !this.showFilePreview;
+    },
+    CloseFullImage: function () {
+      this.FullImage = false    
+      return false
+    },
+    showFullImage: function (src,title,descr) {
+      this.FullImageSrc = src
+      this.activeTitle = title + descr
+      this.FullImage = true
     }
   }
-  </script>
-  
-  <style>
-  .v-virtual-scroll__item {
-    display: flex;
-    justify-content: center;
-  }
+}
+</script>
+
+<style>
+.v-theme--light .image-item header {
+  background-color: transparent;
+  color: floralwhite;
+}
+
+.v-theme--light .image-item header a {
+  color: floralwhite;
+}
+
+.image-toolbar {
+  opacity: 0;
+  transition: opacity 0.5s;
+
+  align-items: center;
+  width: 100%;
+  justify-content: end;
+
+}
+
+.image-item.active .image-toolbar {
+  opacity: 1;
+}
+
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+.image-block {
+  position: relative;
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 4px;
+  text-align: center;
+}
+
+.image-content {
+  display: block;
+  position: relative;
+  padding: 4px 0;
+}
+
+.image-item {
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
+}
+
+.image-block.active .image-text-block {
+  display: block !important;
+}
+
+.image-text-block {
+
+  width: 100%;
+  font-family: Roboto;
+  text-align: center;
+  color: white;
+  opacity: 0.7;
+  background-color: rgb(19, 18, 18);
+  position: absolute;
+  bottom: 0;
+  z-index: 2;
+  font-size: 24px;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.image-item.active .image-text-block {
+  opacity: 0.6;
+}
+
+
+
+.image-item {
+  opacity: 1;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+.image-item:hover {
+  opacity: 0.8;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
   .image-block {
-    position: relative;
-    padding: 4px;
+    flex: 50%;
+    max-width: 50%;
   }
-  
-  .image-text-block{
-      font-family: Roboto;
-      width: 250px;
-      text-align: center;
-      opacity: 0.7;
-      background-color: rgb(243, 243, 243);
-      /* padding: 14px; */
-      position: absolute;
-      bottom:4px;
-      /* left:14px; */
-      z-index: 2;
-      font-size: 24px;
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .image-block {
+    flex: 100%;
+    max-width: 100%;
   }
-  .image-item {
-    opacity: 0.4;
-    transition: all 0.5s;
-    height: 150px;
-    width: 250px;
-    cursor: pointer;
-  }
-  
-  .image-item:hover{
-      opacity: 1;
-  }
-   
-  </style>
-  
+}
+</style>

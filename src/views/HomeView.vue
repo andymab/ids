@@ -4,6 +4,7 @@
 </script>
 
 <template>
+  <app-bar />
   <breadcrumbs-head :items="items" />
   <main>
     <v-container>

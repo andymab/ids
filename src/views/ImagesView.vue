@@ -5,8 +5,10 @@
     :title="activeTitle"
     @CloseFullImage="CloseFullImage"
   />
+  <div v-show="!FullImage">
+  <app-bar />
   <breadcrumbs-head :items="breadcrumbs" />
-  <main>
+  <main v-show="!FullImage">
     <v-container>
       <v-toolbar title="Фотоальбомы" density="compact">
         <v-text-field
@@ -80,6 +82,7 @@
                               :data-descr="n.descr"
                               class="mr-2"
                             ></v-icon>
+                            <v-icon icon="mdi-newspaper-plus" @click="showFilePreviewDialog(n.src_tmb)" class="mr-2"></v-icon>
                             <RouterLink to="/images/1">
                               <v-icon icon="mdi-exit-to-app"></v-icon>
                             </RouterLink>
@@ -100,6 +103,7 @@
       </v-virtual-scroll>
     </v-container>
   </main>
+</div>
 </template>
 
 <script>
@@ -140,11 +144,8 @@ export default {
     mergeProps,
     CloseFullImage: function () {
       this.FullImage = false
-      return false
     },
     showFullImage: function (e) {
-      // console.log(e.target);
-      console.log(e.target.dataset.src)
       this.activeSrc = e.target.dataset.src
       this.activeTitle = e.target.dataset.title
       this.FullImage = true
@@ -186,10 +187,7 @@ export default {
   opacity: 1;
 }
 
-.v-virtual-scroll__item {
-  /* display: flex; */
-  /* justify-content: center; */
-}
+
 
 .row {
   display: flex;

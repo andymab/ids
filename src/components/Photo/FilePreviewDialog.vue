@@ -1,7 +1,13 @@
 <template>
     <v-dialog v-model="showPreview" width="auto">
         <v-card>
-            <v-card-title>File Upload Preview.</v-card-title>
+            <v-card-title class="d-flex justify-space-between align-center " > <span> File Upload Preview.</span>
+
+
+                <v-btn icon="$close" @click="closeDialog">
+    
+    </v-btn>
+            </v-card-title>
             <v-card-text>
                 <div class="d-flex flex-column justify-center align-center fill-height">
 
@@ -15,7 +21,7 @@
 
                     <v-btn class="mt-5" @click="$refs.filePickerField.click()"> Upload </v-btn>
 
-                    <image-cropper-dialog ref="cropperDialog" :chosenImage="chosenImage"
+                    <image-cropper-dialog ref="cropperDialog" :chosenImage="chosenImage" 
                         @onReset="$refs.filePickerField.value = null" @onCrop="(croppedImage) => {
                             avatarImage = croppedImage;
                         }" />
@@ -48,6 +54,10 @@ export default {
             type: Boolean,
             default: () => false
         },
+        srcpreview:{
+            type:String,
+            default: () => '/public/default.jpg'
+        }
     },
     data() {
         return {
@@ -59,16 +69,25 @@ export default {
         }
     },
     created() {
-        this.showPreview = this.dialog;
+        
+
+    },
+    mounted(){
+
     },
     watch: {
         dialog: function () {
-            console.log('---' + this.dialog);
             this.showPreview = this.dialog;
         },
-
+        srcpreview: function(){
+            this.avatarImage = this.srcpreview;  
+        },
     },
     methods: {
+        closeDialog() {
+      this.$emit('onReset');
+    },
+
         async uploadBlob(base64) {
 
 

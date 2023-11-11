@@ -1,29 +1,28 @@
 [
-    [
-        {
-            "title": "гора Надежда",
-            "descr": "2023 август",
-            "src_tmb": "/photo/001/001_tmb.jpg",
-            "src_big": "/photo/001/001.jpg"
-        },
-        {
-            "title": "гора Надежда",
-            "descr": "2023 август",
-            "src_tmb": "/photo/001/001_tmb.jpg",
-            "src_big": "/photo/001/001.jpg"
-        },
-        {
-            "title": "гора Надежда",
-            "descr": "2023 август",
-            "src_tmb": "/photo/001/001_tmb.jpg",
-            "src_big": "/photo/001/001.jpg"
-        },
-        {
-            "title": "гора Надежда",
-            "descr": "2023 август",
-            "src_tmb": "/photo/001/001_tmb.jpg",
-            "src_big": "/photo/001/001.jpg"
-        }
-
-    ]
-        ]
+  [
+    {
+      "title": "гора Надежда",
+      "descr": "2023 август",
+      "src_tmb": "/photo/001/001_tmb.jpg",
+      "src_big": "/photo/001/001.jpg"
+    },
+    {
+      "title": "гора Надежда",
+      "descr": "2023 август",
+      "src_tmb": "/photo/001/001_tmb.jpg",
+      "src_big": "/photo/001/001.jpg"
+    },
+    {
+      "title": "гора Надежда",
+      "descr": "2023 август",
+      "src_tmb": "/photo/001/001_tmb.jpg",
+      "src_big": "/photo/001/001.jpg"
+    },
+    {
+      "title": "гора Надежда",
+      "descr": "2023 август",
+      "src_tmb": "/photo/001/001_tmb.jpg",
+      "src_big": "/photo/001/001.jpg"
+    }
+  ]
+]
