@@ -13,10 +13,10 @@
 
                     <input ref="filePickerField" type="file" accept="image/*" @change="launchCropper" hidden />
 
-                    <div>
-                        <v-avatar size="350px" class="mt-5" style="border: 2px solid black;">
+                    <div style="height: 350px; width: 350px; border: 2px solid black;">
+                        <!-- <v-avatar size="350px" class="mt-5" style="border: 2px solid black;"> -->
                             <v-img :src="avatarImage" @click="uploadBlob(avatarImage)" class="avatar-image"></v-img>
-                        </v-avatar>
+                        <!-- </v-avatar> -->
                     </div>
 
                     <v-btn class="mt-5" @click="$refs.filePickerField.click()"> Upload </v-btn>
