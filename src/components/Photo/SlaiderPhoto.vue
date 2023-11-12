@@ -10,6 +10,7 @@
       height="100vh"
       hide-delimiter-background
       show-arrows="hover"
+      interval="10000"
     >
     <v-carousel-item
       v-for="(item,i) in images"

@@ -38,7 +38,7 @@
         ></v-switch>
       </v-toolbar>
       <div>
-        <file-preview-dialog :dialog="showFilePreview" @onReset="showFilePreview = false" />
+        <file-preview-dialog :dialog="showFilePreview" :id="1" :photo_id="1" @onReset="showFilePreview = false" />
       </div>
       <v-virtual-scroll :items="items" height="dynamic">
         <template v-slot:default="{ item, index }">
@@ -54,7 +54,6 @@
                     :class="{ 'active': isHovering || showtooltype}" v-bind="props"
                     
                     >
-                      <!-- <RouterLink to="/images/1"> -->
                       <v-img
                         :src="n.src_tmb"
                         :lazy-src="n.src_big"
@@ -112,7 +111,7 @@ import { mergeProps } from 'vue'
 import FilePreviewDialog from '../components/Photo/FilePreviewDialog.vue'
 import FullImage from '../components/Photo/FullImage.vue'
 
-import json from '/src/assets/photo/albom.json'
+import json from '/src/assets/photo/001.json'
 
 export default {
   components: {
@@ -200,7 +199,6 @@ export default {
   flex: 25%;
   max-width: 25%;
   padding: 0 4px;
-  /* background-color: black; */
   text-align: center;
 }
 
@@ -211,7 +209,6 @@ export default {
 }
 
 .image-item {
-  margin-top: 8px;
   vertical-align: middle;
   width: 100%;
 }

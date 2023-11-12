@@ -28,7 +28,7 @@
         <v-switch v-model="showtooltype" hide-details inset compact label="Показать описания"></v-switch>
       </v-toolbar>
       <div>
-        <file-preview-dialog :dialog="showFilePreview" :srcpreview="activeSrc" @onReset="showFilePreview = false" />
+        <file-preview-dialog :dialog="showFilePreview"  :id="1" :photo_id="1" :srcpreview="activeSrc" @onReset="showFilePreview = false" />
       </div>
       <v-virtual-scroll :items="items" height="dynamic">
         <template v-slot:default="{ item, index }">
@@ -101,7 +101,7 @@ export default {
     FullImage: false,
     FullImageSrc: '',
     showtitle: false,
-    items: json[0].source,
+    items: json[0][0].source,
     showFilePreview: false,
     showtooltype: false,
     breadcrumbs: [
@@ -197,7 +197,6 @@ export default {
 }
 
 .image-item {
-  margin-top: 8px;
   vertical-align: middle;
   width: 100%;
 }
