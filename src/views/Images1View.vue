@@ -1,11 +1,12 @@
 <template>
+  <slaider-photo v-if="SliderShow" :images="getItems()" :curitem="activeSrc" @CloseSlaider="SliderShow = !SliderShow"/>
   <full-image v-if="FullImage" :image="FullImageSrc" :title="activeTitle" @CloseFullImage="CloseFullImage" />
-  <div v-show="!FullImage">
+  <div v-show="!FullImage && !SliderShow">
   <app-bar />
   <breadcrumbs-head :items="breadcrumbs" />
   <main v-show="!FullImage">
     <v-container>
-      <v-toolbar title="Фотоальбомы" density="compact">
+      <v-toolbar :title="toolbartitle" density="compact">
         <v-text-field hide-details prepend-icon="mdi-magnify" single-line placeholder="...Найти"></v-text-field>
 
         <v-tooltip location="top">
@@ -14,6 +15,14 @@
               @click="showFilePreview = !showFilePreview"></v-btn>
           </template>
           <span>Новое фото</span>
+        </v-tooltip>
+
+        <v-tooltip location="top">
+          <template v-slot:activator="{ props: tooltip }">
+            <v-btn icon="mdi-image-move" v-bind="mergeProps(tooltip)"
+              @click="SliderShow = !SliderShow"></v-btn>
+          </template>
+          <span>Slaider</span>
         </v-tooltip>
 
         <v-switch v-model="showtooltype" hide-details inset compact label="Показать описания"></v-switch>
@@ -46,7 +55,7 @@
                         <v-toolbar density="compact">
                           <div class="d-flex px-2 image-toolbar">
                             <v-icon icon="mdi-loupe" @click="showFullImage(n.src_big,n.title,n.descr)" class="mr-2"></v-icon>
-                            <v-icon icon="mdi-newspaper-plus" @click="showFilePreviewDialog(n.src_tmb)" class="mr-2"></v-icon>
+                            <v-icon icon="mdi-newspaper" @click="showFilePreviewDialog(n.src_tmb)" class="mr-2"></v-icon>
 </div>
 
                         </v-toolbar>
@@ -74,20 +83,25 @@ import { mergeProps } from 'vue'
 import FilePreviewDialog from '../components/Photo/FilePreviewDialog.vue'
 import FullImage from '../components/Photo/FullImage.vue'
 
+
 import json from '/src/assets/photo/001.json'
+import SlaiderPhoto from '../components/Photo/SlaiderPhoto.vue'
 
 export default {
   components: {
     FilePreviewDialog,
-    FullImage
+    FullImage,
+    SlaiderPhoto
   },
   data: () => ({
+    SliderShow:false,
+    toolbartitle: json[0].title ?? "",
     activeSrc: '',
     activeTitle: '',
     FullImage: false,
     FullImageSrc: '',
     showtitle: false,
-    items: json,
+    items: json[0].source,
     showFilePreview: false,
     showtooltype: false,
     breadcrumbs: [
@@ -109,6 +123,12 @@ export default {
 
     ]
   }),
+  created(){
+    console.log(this.json)
+  },
+  mounted(){
+     console.log(this.json)
+  },
   methods: {
     mergeProps,
     showFilePreviewDialog:function(src){
@@ -123,7 +143,10 @@ export default {
       this.FullImageSrc = src
       this.activeTitle = title + descr
       this.FullImage = true
-    }
+    },
+    getItems: function(){
+      return this.items[0];
+    },
   }
 }
 </script>
