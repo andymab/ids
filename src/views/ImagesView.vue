@@ -38,7 +38,7 @@
         ></v-switch>
       </v-toolbar>
       <div>
-        <file-preview-dialog :dialog="showFilePreview" :id="1" :photo_id="1" @onReset="showFilePreview = false" />
+        <file-preview-dialog :dialog="showFilePreview" :id="items.length" :photo_id="0" @onReset="showFilePreview = false" />
       </div>
       <v-virtual-scroll :items="items" height="dynamic">
         <template v-slot:default="{ item, index }">
@@ -107,11 +107,11 @@
 
 <script>
 import { mergeProps } from 'vue'
-
+import axios from 'axios'
 import FilePreviewDialog from '../components/Photo/FilePreviewDialog.vue'
 import FullImage from '../components/Photo/FullImage.vue'
 
-import json from '/src/assets/photo/001.json'
+//import json from '/public/assets/001.json'
 
 export default {
   components: {
@@ -123,7 +123,7 @@ export default {
     activeTitle: '',
     FullImage: false,
     showtitle: false,
-    items: json,
+    items: [],
     showFilePreview: false,
     showtooltype: false,
     breadcrumbs: [
@@ -139,6 +139,14 @@ export default {
       }
     ]
   }),
+  created(){
+
+  },
+  mounted(){
+   console.log('---',this.items); 
+    this.loadPhotos();
+    console.log('---',this.items);  
+  },
   methods: {
     mergeProps,
     CloseFullImage: function () {
@@ -148,6 +156,23 @@ export default {
       this.activeSrc = e.target.dataset.src
       this.activeTitle = e.target.dataset.title
       this.FullImage = true
+    },
+    loadPhotos: function(){
+      const self = this;
+      let formData = new FormData()
+      formData.append('photo', JSON.stringify({action:'getphotos'}))
+
+      axios
+        .post('/Photos', formData)
+        .then(function (responce) {
+         const $items = responce.data;
+         console.log($items);
+         self.items = $items.data;
+          console.log('SUCCESS!!')
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
     // addClass: function (e) {
     //  // if (e.target.classList.contains("has-children")) {

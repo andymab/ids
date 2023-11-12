@@ -1,5 +1,4 @@
 <?php
-
 if (!filter_input(INPUT_POST, 'photo')) {
 	 	require "../dist/index.html";
 	} else {
