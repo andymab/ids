@@ -111,7 +111,7 @@ import axios from 'axios'
 import FilePreviewDialog from '../components/Photo/FilePreviewDialog.vue'
 import FullImage from '../components/Photo/FullImage.vue'
 
-//import json from '/public/assets/001.json'
+import json from '/public/assets/001.json'
 
 export default {
   components: {
@@ -123,7 +123,7 @@ export default {
     activeTitle: '',
     FullImage: false,
     showtitle: false,
-    items: [],
+    items: json,
     showFilePreview: false,
     showtooltype: false,
     breadcrumbs: [
@@ -143,9 +143,9 @@ export default {
 
   },
   mounted(){
-   console.log('---',this.items); 
-    this.loadPhotos();
-    console.log('---',this.items);  
+  // console.log('---',this.items); 
+  //  this.loadPhotos();
+  //  console.log('---',this.items);  
   },
   methods: {
     mergeProps,
